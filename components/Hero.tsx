@@ -129,10 +129,10 @@ const Hero = ({ data }: HeroProps) => {
               className="flex flex-wrap gap-3 md:gap-4 mb-8 md:mb-10"
             >
               <motion.a
-                whileHover={!isTouch ? { scale: 1.02 } : {}}
+                whileHover={!isTouch ? { scale: 1.02, boxShadow: '0 12px 48px rgba(140, 198, 63, 0.3)' } : {}}
                 whileTap={{ scale: 0.98 }}
                 href={data?.ctaLink || "#contact"}
-                className="group relative px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold text-xs md:text-sm overflow-hidden"
+                className="btn-ripple group relative px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold text-xs md:text-sm overflow-hidden"
                 style={{
                   background: 'rgba(140, 198, 63, 0.15)',
                   backdropFilter: isMobile ? 'blur(10px)' : 'blur(20px)',
@@ -143,7 +143,7 @@ const Hero = ({ data }: HeroProps) => {
                 data-sanity={data?._id ? `${data._id}.ctaText` : undefined}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shimmer" />
                 <span className="relative z-10 flex items-center space-x-2">
                   <span className="tracking-wide text-white drop-shadow-lg">{data?.ctaText || 'Get Free Survey'}</span>
                   <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-2 transition-transform duration-300 text-white drop-shadow-lg" />
@@ -159,14 +159,14 @@ const Hero = ({ data }: HeroProps) => {
                 } : {}}
                 whileTap={{ scale: 0.95 }}
                 href={data?.secondaryCtaLink || "#systems"}
-                className="group relative bg-white/5 text-white px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold text-xs md:text-sm border-2 border-white/20 transition-all shadow-xl"
+                className="btn-ripple group relative bg-white/5 text-white px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold text-xs md:text-sm border-2 border-white/20 transition-all shadow-xl overflow-hidden"
                 style={{
                   backdropFilter: isMobile ? 'blur(10px)' : 'blur(20px)',
                   WebkitBackdropFilter: isMobile ? 'blur(10px)' : 'blur(20px)',
                 }}
                 data-sanity={data?._id ? `${data._id}.secondaryCtaText` : undefined}
               >
-                <span className="flex items-center space-x-2">
+                <span className="flex items-center space-x-2 relative z-10">
                   <span className="tracking-wide">{data?.secondaryCtaText || 'Explore Systems'}</span>
                   <motion.span
                     animate={!isMobile && !reduceMotion ? { rotate: [0, 360] } : {}}

@@ -101,36 +101,56 @@ const Footer = ({ data }: FooterProps) => {
 
               {/* Contact Info */}
               <div className="space-y-3 text-left">
-                <a href="tel:02382123763" className="flex items-center space-x-3 text-gray-400 hover:text-[#8cc63f] transition-colors">
-                  <Phone className="w-5 h-5" />
-                  <span>023 8212 3763</span>
-                </a>
-                <a href="mailto:info@greenstarsolar.co.uk" className="flex items-center space-x-3 text-gray-400 hover:text-[#8cc63f] transition-colors">
-                  <Mail className="w-5 h-5" />
-                  <span>info@greenstarsolar.co.uk</span>
-                </a>
-                <div className="flex items-center space-x-3 text-gray-400">
-                  <MapPin className="w-5 h-5" />
-                  <span>United Kingdom</span>
-                </div>
+                <motion.a
+                  href="tel:02382123763"
+                  className="flex items-center space-x-3 text-gray-400 hover:text-[#8cc63f] transition-all duration-300 group relative overflow-hidden rounded-lg p-2 -ml-2"
+                  whileHover={{ x: 5 }}
+                >
+                  <div className="absolute inset-0 bg-[#8cc63f]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <Phone className="w-5 h-5 relative z-10 group-hover:rotate-12 transition-transform duration-300" />
+                  <span className="relative z-10">023 8212 3763</span>
+                </motion.a>
+                <motion.a
+                  href="mailto:info@greenstarsolar.co.uk"
+                  className="flex items-center space-x-3 text-gray-400 hover:text-[#8cc63f] transition-all duration-300 group relative overflow-hidden rounded-lg p-2 -ml-2"
+                  whileHover={{ x: 5 }}
+                >
+                  <div className="absolute inset-0 bg-[#8cc63f]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <Mail className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
+                  <span className="relative z-10">info@greenstarsolar.co.uk</span>
+                </motion.a>
+                <motion.div
+                  className="flex items-center space-x-3 text-gray-400 relative overflow-hidden rounded-lg p-2 -ml-2 group"
+                  whileHover={{ x: 5 }}
+                >
+                  <div className="absolute inset-0 bg-[#8cc63f]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <MapPin className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
+                  <span className="relative z-10">Greenstar Solar, 8 Barnes Wallis Rd, Fareham PO15 5TU</span>
+                </motion.div>
               </div>
 
               {/* Social Links */}
               <div className="flex space-x-4 mt-6">
-                {socialLinks.map((social) => (
+                {socialLinks.map((social, index) => (
                   <motion.a
                     key={social.label}
                     href={social.href}
-                    whileHover={!isTouch ? { scale: 1.1, y: -3 } : {}}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.1 * index, type: 'spring', stiffness: 200 }}
+                    whileHover={!isTouch ? { scale: 1.15, y: -5, rotate: [0, -10, 10, 0] } : {}}
                     whileTap={!isTouch ? { scale: 0.9 } : {}}
-                    className="bg-white/10 hover:bg-[#8cc63f] w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
+                    className="relative bg-white/10 hover:bg-[#8cc63f] w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 group overflow-hidden"
                     style={{
                       minWidth: '44px',
-                      minHeight: '44px'
+                      minHeight: '44px',
+                      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
                     }}
                     aria-label={social.label}
                   >
-                    <social.icon className="w-5 h-5" />
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#8cc63f] to-[#7ab52f] opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
+                    <social.icon className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
                   </motion.a>
                 ))}
               </div>
@@ -151,9 +171,12 @@ const Footer = ({ data }: FooterProps) => {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-[#8cc63f] transition-colors inline-block hover:translate-x-1 transform"
+                    className="text-gray-400 hover:text-[#8cc63f] transition-all duration-300 inline-block hover:translate-x-2 transform link-underline group"
                   >
-                    {link.name}
+                    <span className="relative">
+                      {link.name}
+                      <span className="absolute -left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">›</span>
+                    </span>
                   </a>
                 </li>
               ))}
@@ -174,9 +197,12 @@ const Footer = ({ data }: FooterProps) => {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-[#8cc63f] transition-colors inline-block hover:translate-x-1 transform"
+                    className="text-gray-400 hover:text-[#8cc63f] transition-all duration-300 inline-block hover:translate-x-2 transform link-underline group"
                   >
-                    {link.name}
+                    <span className="relative">
+                      {link.name}
+                      <span className="absolute -left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">›</span>
+                    </span>
                   </a>
                 </li>
               ))}
@@ -197,9 +223,12 @@ const Footer = ({ data }: FooterProps) => {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-[#8cc63f] transition-colors inline-block hover:translate-x-1 transform"
+                    className="text-gray-400 hover:text-[#8cc63f] transition-all duration-300 inline-block hover:translate-x-2 transform link-underline group"
                   >
-                    {link.name}
+                    <span className="relative">
+                      {link.name}
+                      <span className="absolute -left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">›</span>
+                    </span>
                   </a>
                 </li>
               ))}
@@ -220,9 +249,12 @@ const Footer = ({ data }: FooterProps) => {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-[#8cc63f] transition-colors inline-block hover:translate-x-1 transform"
+                    className="text-gray-400 hover:text-[#8cc63f] transition-all duration-300 inline-block hover:translate-x-2 transform link-underline group"
                   >
-                    {link.name}
+                    <span className="relative">
+                      {link.name}
+                      <span className="absolute -left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">›</span>
+                    </span>
                   </a>
                 </li>
               ))}

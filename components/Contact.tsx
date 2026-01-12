@@ -343,11 +343,11 @@ const Contact = ({ data }: ContactProps) => {
 
                   {/* Submit Button - Premium glassmorphism styling with instant feedback */}
                   <motion.button
-                    whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                    whileHover={!isSubmitting ? { scale: 1.02, boxShadow: '0 12px 48px rgba(140, 198, 63, 0.3)' } : {}}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
                     disabled={isSubmitting}
-                    className={`w-full py-3 md:py-4 rounded-xl font-semibold text-xs md:text-sm transition-all duration-150 flex items-center justify-center space-x-2 md:space-x-3 relative overflow-hidden group ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    className={`btn-ripple w-full py-3 md:py-4 rounded-xl font-semibold text-xs md:text-sm transition-all duration-150 flex items-center justify-center space-x-2 md:space-x-3 relative overflow-hidden group ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                     style={{
                       background: 'rgba(140, 198, 63, 0.15)',
                       backdropFilter: 'blur(20px)',
@@ -358,7 +358,7 @@ const Contact = ({ data }: ContactProps) => {
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
                     {!isSubmitting && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shimmer" />
                     )}
                     <motion.span
                       className="relative z-10 tracking-wide text-white drop-shadow-lg"
@@ -375,7 +375,7 @@ const Contact = ({ data }: ContactProps) => {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.15 }}
                       >
-                        <Send className="w-4 h-4 md:w-5 md:h-5 relative z-10 text-white drop-shadow-lg" />
+                        <Send className="w-4 h-4 md:w-5 md:h-5 relative z-10 text-white drop-shadow-lg group-hover:translate-x-1 transition-transform duration-300" />
                       </motion.div>
                     )}
                     {isSubmitting && (

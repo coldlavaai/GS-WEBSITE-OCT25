@@ -184,10 +184,10 @@ const Navigation = ({ data }: NavigationProps) => {
               </div>
             ))}
             <motion.a
-              whileHover={!isTouch ? { scale: 1.05 } : {}}
+              whileHover={!isTouch ? { scale: 1.05, boxShadow: '0 12px 40px rgba(140, 198, 63, 0.3)' } : {}}
               whileTap={!isTouch ? { scale: 0.95 } : {}}
               href={ctaButton.href}
-              className="relative px-6 py-3 rounded-full font-semibold text-white transition-all duration-300 overflow-hidden group"
+              className="btn-ripple relative px-6 py-3 rounded-full font-semibold text-white transition-all duration-300 overflow-hidden group"
               style={{
                 background: 'rgba(140, 198, 63, 0.15)',
                 backdropFilter: 'blur(20px)',
@@ -197,7 +197,7 @@ const Navigation = ({ data }: NavigationProps) => {
               }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shimmer" />
               <span className="relative z-10 drop-shadow-lg">{ctaButton.text}</span>
             </motion.a>
           </div>
