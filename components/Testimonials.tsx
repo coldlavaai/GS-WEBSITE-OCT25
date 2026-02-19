@@ -94,41 +94,41 @@ const Testimonials = ({ data }: TestimonialsProps) => {
     { name: 'Debbie Urquhart', rating: 5, text: 'We were wanting panels for a while, but never got around to it as we didn\'t want to sit with a company for hours and listen. From the start Greenstar were great, communication was prompt, explanation of how it all works, and led us all the way step by step. When the fitters arrived they were amazing, they knew their business and were happy to find solutions. They worked long days and were polite and friendly. All in all a very pleasant experience and would recommend the company.', platform: 'Trustpilot', date: 'Oct 2025' },
     { name: 'Alan', rating: 5, text: 'I had been exploring Solar Installation for many months and experienced so many hard sells. My first call with Jack and Jon at Greenstar was completely different. It was clear from the outset that Greenstar was different — speaking to knowledgeable technicians rather than salesmen. They quoted for a much better system at a very reasonable price. From this moment to installation was seamless. Everything went exactly as they told me. The tradesmen that did the installation in just one day were equally dependable, polite and efficient. Jack contacted me after installation and assured me that he was available if I needed any post installation advice. I very highly recommend Greenstar to anyone interested in Solar installation.', platform: 'Trustpilot', date: 'Oct 2025' },
     // --- Existing reviews (Aug–Oct 2025) ---
-    { name: 'Phill Ballard', rating: 5, text: 'Great service from beginning to end and at a great price. From Jon\'s initial visit through to install - Greenstar provided first rate service. Already self sufficient with excess sent to the grid!', platform: 'Google' },
-    { name: 'Verified Customer', rating: 5, text: 'Fantastic experience from start to finish! Professional, friendly team. Excellent communication. Top-notch quality. Finished on time with no issues!', platform: 'Trustpilot' },
-    { name: 'Steve Wolstenholme', rating: 5, text: '5 star treatment from start to finish, couldn\'t of asked for anything else.', platform: 'Google' },
-    { name: 'Verified Customer', rating: 5, text: 'Greenstar were professional throughout. Kept us updated with the plan. Never put any pressure on us. Checked we are happy and helped set up the app.', platform: 'Trustpilot' },
-    { name: 'Max Copeland', rating: 5, text: 'Very impressed with Greenstar Solar. Professional and efficient team. Installation was smooth and quick. Great price and couldn\'t be happier!', platform: 'Google' },
-    { name: 'Kevin', rating: 5, text: 'Completely different from others - no hard sell! Speaking to knowledgeable technicians rather than salesmen. Installation in one day.', platform: 'Trustpilot' },
-    { name: 'Martyn Brayshaw', rating: 5, text: 'Communication from start to finish has been exemplary. They explained everything in simple terms and made us feel confident.', platform: 'Google' },
-    { name: 'Martyn and Ann', rating: 5, text: 'GreenStar Solar was superb. Explained processes clearly. Scaffolder and workmen all arrived on time. Completed within a day!', platform: 'Trustpilot' },
-    { name: 'Jim Godfrey', rating: 5, text: 'Excellent service in all respects. Cost was less than expected. Only used less than a kilowatt of power since installation. Very pleased!', platform: 'Google' },
-    { name: 'Ben', rating: 5, text: 'Great guys to deal with. Knowledgable and not a hard sell. System performed exactly as hoped. Install team were nice and tidy.', platform: 'Trustpilot' },
-    { name: 'Simon Wright', rating: 5, text: 'Great experience working with Greenstar, good communication throughout and fitters were very clean and polite. Highly recommended.', platform: 'Google' },
-    { name: 'Martin and Ann', rating: 5, text: 'Very smooth process from start to finish. Good advice, professional installation, very good communication throughout.', platform: 'Trustpilot' },
-    { name: 'Daniel Blackman', rating: 5, text: 'Fantastic company! First class customer service continues after purchase. Big shout to Jack who is an absolute super star. Competitive pricing.', platform: 'Google' },
-    { name: 'Olivia', rating: 5, text: 'As a business owner, switching to solar made sense. GreenStar made it easy. Already seeing benefits in reduced energy costs!', platform: 'Trustpilot' },
-    { name: 'Yasmin Kingston', rating: 5, text: 'Had 6 quotes prior and this was the best by far! Already saving money in bills. 10/10 recommend. John and Jack are a great team!', platform: 'Google' },
-    { name: 'Rikesh', rating: 5, text: 'Fair price, simple process. Jon explained everything clearly. Tobias kept things organized. Bills already dropping!', platform: 'Trustpilot' },
-    { name: 'Ben Miles-Mathewson', rating: 5, text: 'Good comms throughout. Install team were really helpful and thorough. System working so well adding a second battery next week!', platform: 'Google' },
-    { name: 'Meghan', rating: 5, text: 'Whole process was smooth and easy. Tobias and team were patient with our many questions and very reassuring. Don\'t hesitate!', platform: 'Trustpilot' },
-    { name: 'David Payne', rating: 5, text: 'Absolutely first class from start to finish. Better than large nationals. Installation outperformed expectations. No hesitation in recommending!', platform: 'Google' },
-    { name: 'Sri', rating: 5, text: 'Very professional service. Knowledgeable team that listened to our circumstances and needs. Extremely good value for money.', platform: 'Trustpilot' },
-    { name: 'Tony Hamlett', rating: 5, text: 'First class service with no pressure sales. Installation completed in one day. System has been superb for one month now.', platform: 'Google' },
-    { name: 'Verified Customer', rating: 5, text: 'They did such a good job! Great professional team, worked hard to get the job completed in a timely manner and efficiently.', platform: 'Trustpilot' },
-    { name: 'Mark Diaper', rating: 5, text: 'Not the cheapest of 5 quotes but best value. Excellent equipment and aftercare. Installers were tidy and any snags resolved immediately.', platform: 'Google' },
-    { name: 'Jim', rating: 5, text: 'Excellent explanation of system. Quote adjusted to my needs. Install was quick and well done. Already saving money!', platform: 'Trustpilot' },
-    { name: 'Vulcan XH558', rating: 5, text: 'Jack, John, Tobias and engineers were brilliant. Professional with advice pre and post installation. Smooth and painless from start to finish.', platform: 'Google' },
-    { name: 'Andy', rating: 5, text: 'Jack, John, Tobias and engineers were brilliant. Professional with advice pre and post installation. Smooth and painless!', platform: 'Trustpilot' },
-    { name: 'Oliver', rating: 5, text: 'Excellent customer service. Jack and John were quick to respond and courteous. Any concerns resolved quickly and professionally.', platform: 'Google' },
-    { name: 'Verified Customer', rating: 5, text: 'Found Alex really easy to deal with. No pushy tactics. Knows his stuff, seamless installation process and quality work all round.', platform: 'Trustpilot' },
-    { name: 'Peter Lucas', rating: 5, text: 'Absolutely great company! 22 panel system installed in 2 days. Team were punctual, knowledgeable, polite and cleaned up everything.', platform: 'Google' },
-    { name: 'Phill', rating: 5, text: 'Great price! Spoke to several companies - chose Greenstar as no1. Tom, Anthony and Ben completed first rate install. Self sufficient now!', platform: 'Trustpilot' },
-    { name: 'Peter Lucas', rating: 5, text: 'Faultless installation. Small issue sorted immediately. Clean, tidy and professional. If I could give more stars I would!', platform: 'Trustpilot' },
-    { name: 'Denise', rating: 5, text: 'Competitive quote, high standard work. Scaffolding removed in days not months! Already noticing significant energy savings.', platform: 'Trustpilot' },
-    { name: 'Tony', rating: 5, text: 'Honest experienced local company with no pressure. Professional and straightforward. After a month I am delighted!', platform: 'Trustpilot' },
-    { name: 'Leanne', rating: 5, text: 'Jon made sure I was comfortable with every decision. Tobias kept me updated from start to finish. Highly recommended!', platform: 'Trustpilot' },
-    { name: 'Nigel', rating: 4, text: 'Very pleased with the product. Communication and face to face visits made the whole process easy. No hesitation to recommend.', platform: 'Trustpilot' },
+    { name: 'Phill Ballard', rating: 5, text: 'Great service from beginning to end and at a great price. From Jon\'s initial visit through to install - Greenstar provided first rate service. Already self sufficient with excess sent to the grid!', platform: 'Google', date: 'Aug 2025' },
+    { name: 'Verified Customer', rating: 5, text: 'Fantastic experience from start to finish! Professional, friendly team. Excellent communication. Top-notch quality. Finished on time with no issues!', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'Steve Wolstenholme', rating: 5, text: '5 star treatment from start to finish, couldn\'t of asked for anything else.', platform: 'Google', date: 'Oct 2025' },
+    { name: 'Verified Customer', rating: 5, text: 'Greenstar were professional throughout. Kept us updated with the plan. Never put any pressure on us. Checked we are happy and helped set up the app.', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'Max Copeland', rating: 5, text: 'Very impressed with Greenstar Solar. Professional and efficient team. Installation was smooth and quick. Great price and couldn\'t be happier!', platform: 'Google', date: 'Oct 2025' },
+    { name: 'Kevin', rating: 5, text: 'Completely different from others - no hard sell! Speaking to knowledgeable technicians rather than salesmen. Installation in one day.', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'Martyn Brayshaw', rating: 5, text: 'Communication from start to finish has been exemplary. They explained everything in simple terms and made us feel confident.', platform: 'Google', date: 'Oct 2025' },
+    { name: 'Martyn and Ann', rating: 5, text: 'GreenStar Solar was superb. Explained processes clearly. Scaffolder and workmen all arrived on time. Completed within a day!', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'Jim Godfrey', rating: 5, text: 'Excellent service in all respects. Cost was less than expected. Only used less than a kilowatt of power since installation. Very pleased!', platform: 'Google', date: 'Aug 2025' },
+    { name: 'Ben', rating: 5, text: 'Great guys to deal with. Knowledgable and not a hard sell. System performed exactly as hoped. Install team were nice and tidy.', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'Simon Wright', rating: 5, text: 'Great experience working with Greenstar, good communication throughout and fitters were very clean and polite. Highly recommended.', platform: 'Google', date: 'Oct 2025' },
+    { name: 'Martin and Ann', rating: 5, text: 'Very smooth process from start to finish. Good advice, professional installation, very good communication throughout.', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'Daniel Blackman', rating: 5, text: 'Fantastic company! First class customer service continues after purchase. Big shout to Jack who is an absolute super star. Competitive pricing.', platform: 'Google', date: 'Mar 2025' },
+    { name: 'Olivia', rating: 5, text: 'As a business owner, switching to solar made sense. GreenStar made it easy. Already seeing benefits in reduced energy costs!', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'Yasmin Kingston', rating: 5, text: 'Had 6 quotes prior and this was the best by far! Already saving money in bills. 10/10 recommend. John and Jack are a great team!', platform: 'Google', date: 'Oct 2025' },
+    { name: 'Rikesh', rating: 5, text: 'Fair price, simple process. Jon explained everything clearly. Tobias kept things organized. Bills already dropping!', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'Ben Miles-Mathewson', rating: 5, text: 'Good comms throughout. Install team were really helpful and thorough. System working so well adding a second battery next week!', platform: 'Google', date: 'Oct 2025' },
+    { name: 'Meghan', rating: 5, text: 'Whole process was smooth and easy. Tobias and team were patient with our many questions and very reassuring. Don\'t hesitate!', platform: 'Trustpilot', date: 'Oct 2025' },
+    { name: 'David Payne', rating: 5, text: 'Absolutely first class from start to finish. Better than large nationals. Installation outperformed expectations. No hesitation in recommending!', platform: 'Google', date: 'Aug 2025' },
+    { name: 'Sri', rating: 5, text: 'Very professional service. Knowledgeable team that listened to our circumstances and needs. Extremely good value for money.', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Tony Hamlett', rating: 5, text: 'First class service with no pressure sales. Installation completed in one day. System has been superb for one month now.', platform: 'Google', date: 'Aug 2025' },
+    { name: 'Verified Customer', rating: 5, text: 'They did such a good job! Great professional team, worked hard to get the job completed in a timely manner and efficiently.', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Mark Diaper', rating: 5, text: 'Not the cheapest of 5 quotes but best value. Excellent equipment and aftercare. Installers were tidy and any snags resolved immediately.', platform: 'Google', date: 'Aug 2025' },
+    { name: 'Jim', rating: 5, text: 'Excellent explanation of system. Quote adjusted to my needs. Install was quick and well done. Already saving money!', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Vulcan XH558', rating: 5, text: 'Jack, John, Tobias and engineers were brilliant. Professional with advice pre and post installation. Smooth and painless from start to finish.', platform: 'Google', date: 'Aug 2025' },
+    { name: 'Andy', rating: 5, text: 'Jack, John, Tobias and engineers were brilliant. Professional with advice pre and post installation. Smooth and painless!', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Oliver', rating: 5, text: 'Excellent customer service. Jack and John were quick to respond and courteous. Any concerns resolved quickly and professionally.', platform: 'Google', date: 'Aug 2025' },
+    { name: 'Verified Customer', rating: 5, text: 'Found Alex really easy to deal with. No pushy tactics. Knows his stuff, seamless installation process and quality work all round.', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Peter Lucas', rating: 5, text: 'Absolutely great company! 22 panel system installed in 2 days. Team were punctual, knowledgeable, polite and cleaned up everything.', platform: 'Google', date: 'Aug 2025' },
+    { name: 'Phill', rating: 5, text: 'Great price! Spoke to several companies - chose Greenstar as no1. Tom, Anthony and Ben completed first rate install. Self sufficient now!', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Peter Lucas', rating: 5, text: 'Faultless installation. Small issue sorted immediately. Clean, tidy and professional. If I could give more stars I would!', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Denise', rating: 5, text: 'Competitive quote, high standard work. Scaffolding removed in days not months! Already noticing significant energy savings.', platform: 'Trustpilot', date: 'Jun 2025' },
+    { name: 'Tony', rating: 5, text: 'Honest experienced local company with no pressure. Professional and straightforward. After a month I am delighted!', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Leanne', rating: 5, text: 'Jon made sure I was comfortable with every decision. Tobias kept me updated from start to finish. Highly recommended!', platform: 'Trustpilot', date: 'Aug 2025' },
+    { name: 'Nigel', rating: 4, text: 'Very pleased with the product. Communication and face to face visits made the whole process easy. No hesitation to recommend.', platform: 'Trustpilot', date: 'Jun 2025' },
     // --- Jun–Aug 2025 ---
     { name: 'Aaron R', rating: 5, text: 'Absolutely brilliant service from the guys on the team! Thank you!', platform: 'Trustpilot', date: 'Jun 2025' },
     // --- Apr 2025 ---
@@ -282,8 +282,13 @@ const Testimonials = ({ data }: TestimonialsProps) => {
 
                   {/* Author */}
                   <div className="pt-3 md:pt-4 border-t border-white/10">
-                    <div className="font-semibold text-white text-xs md:text-sm mb-1">
-                      {review.name}
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <div className="font-semibold text-white text-xs md:text-sm">
+                        {review.name}
+                      </div>
+                      {review.date && (
+                        <span className="text-[9px] md:text-[10px] text-white/40 shrink-0">{review.date}</span>
+                      )}
                     </div>
                     <div className="text-[10px] md:text-xs text-white/60 flex items-center gap-1 md:gap-2 flex-wrap">
                       <span className={`px-1.5 md:px-2 py-0.5 rounded-full text-[9px] md:text-[10px] font-medium ${
