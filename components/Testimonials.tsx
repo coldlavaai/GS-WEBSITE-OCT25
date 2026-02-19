@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { Star, Quote, ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { Star, Quote, ChevronLeft, ChevronRight, Pause, Play, RefreshCw } from 'lucide-react';
 
 interface Testimonial {
   name: string;
@@ -24,6 +24,7 @@ const Testimonials = ({ data }: TestimonialsProps) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [liveGoogleReviews, setLiveGoogleReviews] = useState<Testimonial[]>([]);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -40,6 +41,18 @@ const Testimonials = ({ data }: TestimonialsProps) => {
       clearTimeout(timeoutId);
       window.removeEventListener('resize', checkMobile);
     };
+  }, []);
+
+  // Fetch live Google reviews on mount
+  useEffect(() => {
+    fetch('/api/reviews/google')
+      .then(res => res.json())
+      .then(data => {
+        if (data.reviews?.length) {
+          setLiveGoogleReviews(data.reviews);
+        }
+      })
+      .catch(() => {}); // Silently fail - hardcoded reviews still show
   }, []);
 
   const reviewsPerPage = isMobile ? 4 : 9;
@@ -83,7 +96,12 @@ const Testimonials = ({ data }: TestimonialsProps) => {
     { name: 'Nigel', rating: 4, text: 'Very pleased with the product. Communication and face to face visits made the whole process easy. No hesitation to recommend.', platform: 'Trustpilot' },
   ];
 
-  const mixedReviews = allReviews;
+  // Merge live Google reviews at the top, skip duplicates (match by name)
+  const hardcodedNames = new Set(allReviews.map(r => r.name.toLowerCase()));
+  const newLiveReviews = liveGoogleReviews.filter(
+    r => !hardcodedNames.has(r.name.toLowerCase())
+  );
+  const mixedReviews = [...newLiveReviews, ...allReviews];
   const totalPages = Math.ceil(mixedReviews.length / reviewsPerPage);
   const currentReviews = mixedReviews.slice(
     currentPage * reviewsPerPage,
@@ -154,7 +172,15 @@ const Testimonials = ({ data }: TestimonialsProps) => {
                   <Star key={i} className="w-4 h-4 md:w-5 md:h-5 fill-primary text-primary" />
                 ))}
               </div>
-              <span className="text-white/80 font-semibold text-sm md:text-base">5.0 on Google</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-white/80 font-semibold text-sm md:text-base">5.0 on Google</span>
+                {liveGoogleReviews.length > 0 && (
+                  <span className="flex items-center gap-1 bg-primary/20 text-primary text-[9px] font-semibold px-1.5 py-0.5 rounded-full border border-primary/30">
+                    <RefreshCw className="w-2.5 h-2.5" />
+                    LIVE
+                  </span>
+                )}
+              </div>
             </div>
             <div className="hidden md:block w-px h-6 bg-white/20"></div>
             <div className="flex flex-col items-center gap-2">
