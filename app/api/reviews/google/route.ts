@@ -11,16 +11,9 @@ export async function GET() {
   }
 
   try {
-    // Places API (New)
     const res = await fetch(
-      `https://places.googleapis.com/v1/places/${placeId}?languageCode=en`,
-      {
-        headers: {
-          'X-Goog-Api-Key': apiKey,
-          'X-Goog-FieldMask': 'reviews',
-        },
-        next: { revalidate: 3600 },
-      }
+      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&key=${apiKey}&reviews_sort=newest&language=en`,
+      { next: { revalidate: 3600 } }
     );
 
     if (!res.ok) {
@@ -29,16 +22,16 @@ export async function GET() {
 
     const data = await res.json();
 
-    if (!data.reviews?.length) {
+    if (data.status !== 'OK' || !data.result?.reviews?.length) {
       return NextResponse.json({ reviews: [] });
     }
 
-    const reviews = data.reviews.map((r: any) => ({
-      name: r.authorAttribution?.displayName ?? 'Google Customer',
+    const reviews = data.result.reviews.map((r: any) => ({
+      name: r.author_name,
       rating: r.rating,
-      text: r.text?.text ?? '',
+      text: r.text,
       platform: 'Google',
-      date: r.relativePublishTimeDescription ?? '',
+      date: r.relative_time_description ?? '',
     }));
 
     return NextResponse.json({ reviews });
