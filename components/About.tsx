@@ -37,9 +37,9 @@ const About = ({ data }: AboutProps) => {
     value: stat.value,
     label: stat.label,
   })) || [
-    { icon: Award, value: '15+', label: 'Years Experience' },
-    { icon: Users, value: '250+', label: 'Happy Customers' },
-    { icon: TrendingUp, value: '1,500,000', label: 'Generated in 2025', unit: 'kWh' },
+    { icon: Award, value: '20+', label: 'Years Experience' },
+    { icon: Users, value: '450+', label: 'Happy Customers' },
+    { icon: TrendingUp, value: '1,750,000', label: 'Generated in 2025', unit: 'kWh' },
     { icon: Shield, value: '100%', label: 'Satisfaction Rate' },
   ];
 
@@ -118,7 +118,7 @@ const About = ({ data }: AboutProps) => {
               className="text-xs md:text-sm text-white/80 mb-4 md:mb-6 leading-relaxed"
               data-sanity={data?._id ? `${data._id}.content` : undefined}
             >
-              {data?.content || "At Greenstar Solar, we're committed to making solar energy accessible and affordable for everyone. With over 15 years of experience, we've helped hundreds of homes and businesses transition to clean, renewable energy."}
+              {data?.content || "At Greenstar Solar, we're committed to making solar energy accessible and affordable for everyone. With over 20 years of experience, we've helped hundreds of homes and businesses transition to clean, renewable energy."}
             </motion.p>
 
             <motion.p

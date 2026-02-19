@@ -61,8 +61,8 @@ const Hero = ({ data }: HeroProps) => {
 
   // Use stats from CMS or fallback to default
   const stats = data?.stats || [
-    { value: '15+', label: 'Years Experience' },
-    { value: '250+', label: 'Happy Customers' },
+    { value: '20+', label: 'Years Experience' },
+    { value: '450+', label: 'Happy Customers' },
   ];
 
   return (

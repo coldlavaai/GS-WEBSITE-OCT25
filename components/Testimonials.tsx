@@ -163,7 +163,7 @@ const Testimonials = ({ data }: TestimonialsProps) => {
                   <Star key={i} className="w-4 h-4 md:w-5 md:h-5 fill-primary text-primary" />
                 ))}
               </div>
-              <span className="text-white/80 font-semibold text-sm md:text-base">4.7 on Trustpilot</span>
+              <span className="text-white/80 font-semibold text-sm md:text-base">4.8 on Trustpilot</span>
             </div>
           </div>
         </motion.div>
