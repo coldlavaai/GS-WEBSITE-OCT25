@@ -57,8 +57,10 @@ const Testimonials = ({ data }: TestimonialsProps) => {
 
   const reviewsPerPage = isMobile ? 4 : 9;
 
-  // All 36 reviews - 16 Google + 20 Trustpilot mixed together
+  // All reviews - newest first. Google reviews added automatically from live feed; manually archived here so they're never lost.
   const allReviews: Testimonial[] = [
+    { name: 'Ashley Pentney', rating: 5, text: 'What a refreshing change to find a company who understand the importance of customer care, professionalism and communication! When we started on our solar journey we knew very little about it all but fortunately we found ourselves in the hands of Greenstar Solar. They were immediately very helpful and informative but with never a hint of hard sell. On the first visit, by Jon, we were given a detailed explanation of current solar technology, how it could benefit us and what our options were. The installation went really well and we now have a 16 panel system with 8kW battery storage. A great investment that cost less than we\'d expected. Our sincere thanks to Tobias, Craig, Jon, Jack and in particular to Anthony and Arthur. 10 out of 10 Greenstar – well deserved.', platform: 'Google', date: 'Feb 2026' },
+    { name: 'David Milligan', rating: 5, text: 'For a start, Greenstar beat any other quote I received. I was not pressurised into buying anything and was given very good advice on what to buy and what I did not need. They only sold me items that would benefit my needs. I found the company both very professional and competent. The installation took 7 hours for a 24 panel system with battery/iBoost and emergency back up. The install crew were very good, clean tidy and friendly. The final handover was excellent and the whole system explained in great detail. Aftercare is a must for me and they have also been excellent in this department, no query or message has gone unanswered. I would highly recommend this company.', platform: 'Google', date: 'Dec 2025' },
     { name: 'Phill Ballard', rating: 5, text: 'Great service from beginning to end and at a great price. From Jon\'s initial visit through to install - Greenstar provided first rate service. Already self sufficient with excess sent to the grid!', platform: 'Google' },
     { name: 'Verified Customer', rating: 5, text: 'Fantastic experience from start to finish! Professional, friendly team. Excellent communication. Top-notch quality. Finished on time with no issues!', platform: 'Trustpilot' },
     { name: 'Steve Wolstenholme', rating: 5, text: '5 star treatment from start to finish, couldn\'t of asked for anything else.', platform: 'Google' },
@@ -96,10 +98,10 @@ const Testimonials = ({ data }: TestimonialsProps) => {
     { name: 'Nigel', rating: 4, text: 'Very pleased with the product. Communication and face to face visits made the whole process easy. No hesitation to recommend.', platform: 'Trustpilot' },
   ];
 
-  // Merge live Google reviews at the top, skip duplicates (match by name)
-  const hardcodedNames = new Set(allReviews.map(r => r.name.toLowerCase()));
+  // Merge live Google reviews at the top, skip duplicates (match by name + first 30 chars of text)
+  const hardcodedKeys = new Set(allReviews.map(r => r.name.toLowerCase() + r.text.slice(0, 30).toLowerCase()));
   const newLiveReviews = liveGoogleReviews.filter(
-    r => !hardcodedNames.has(r.name.toLowerCase())
+    r => !hardcodedKeys.has(r.name.toLowerCase() + r.text.slice(0, 30).toLowerCase())
   );
   const mixedReviews = [...newLiveReviews, ...allReviews];
   const totalPages = Math.ceil(mixedReviews.length / reviewsPerPage);
