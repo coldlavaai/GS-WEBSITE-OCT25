@@ -18,8 +18,8 @@ export default function VapiTextChat() {
   const isMobile = useIsMobile();
 
   const WIDGET_CONFIG = {
-    assistantId: process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || 'cb76e1bc-dc2d-4ea8-84a1-c17499ed6387',
-    apiKey: process.env.NEXT_PUBLIC_VAPI_API_KEY || 'bb0b198b-1a8f-4675-bdf8-8a865fc5d68a'
+    assistantId: process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || 'd8b50524-1f09-44b8-8002-bcaf88cd4d0d',
+    apiKey: process.env.NEXT_PUBLIC_VAPI_API_KEY || 'a025d33b-8e6a-45ee-bda4-ec22db21e1b6'
   };
 
   const scrollToBottom = () => {
@@ -40,9 +40,8 @@ export default function VapiTextChat() {
     setIsLoading(true);
 
     try {
-      // Call VAPI Chat API
+      // Call backend API proxy (secure)
       const payload: any = {
-        assistantId: WIDGET_CONFIG.assistantId,
         input: message
       };
 
@@ -51,10 +50,9 @@ export default function VapiTextChat() {
         payload.previousChatId = chatId;
       }
 
-      const response = await fetch('https://api.vapi.ai/chat', {
+      const response = await fetch('/api/vapi/chat', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${WIDGET_CONFIG.apiKey}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
