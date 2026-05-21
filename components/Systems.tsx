@@ -4,7 +4,6 @@ import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Home, Building2, Sun, ArrowRight, Zap } from 'lucide-react';
-import { urlFor } from '@/lib/sanity';
 import BatteryIcon from '@/components/icons/BatteryIcon';
 import { useIsMobile, useIsTouch } from '@/hooks/useMediaQuery';
 
@@ -56,15 +55,7 @@ const Systems = ({ data }: SystemsProps) => {
   // Map CMS data to component format or use fallback
   const services = (data && data.length > 0) ? data.map(service => {
     // Safely get image URL - check if image exists and has asset reference
-    let imageUrl = imageMap[service.title] || '';
-    if (service.image && service.image.asset) {
-      try {
-        imageUrl = urlFor(service.image).width(800).quality(85).url();
-      } catch (e) {
-        // If URL building fails, use fallback
-        imageUrl = imageMap[service.title] || '';
-      }
-    }
+    const imageUrl = imageMap[service.title] || '';
 
     return {
       _id: service._id,

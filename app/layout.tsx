@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { draftMode } from 'next/headers';
-import { VisualEditing } from '@/components/VisualEditing';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import VapiTextChat from '@/components/VapiTextChat';
 import CookieConsent from '@/components/CookieConsent';
@@ -52,14 +50,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isDraftMode = draftMode().isEnabled
-
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
         <ThemeProvider>
           {children}
-          {isDraftMode && <VisualEditing />}
           <VapiTextChat />
           <CookieConsent />
         </ThemeProvider>

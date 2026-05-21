@@ -1,35 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
 import { Sun, TrendingDown, Shield, Zap, Home, CheckCircle, ArrowRight, Leaf, Award } from 'lucide-react';
 import Image from 'next/image';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageWrapper from '@/components/PageWrapper';
 import Contact from '@/components/Contact';
-import { client } from '@/lib/sanity';
 import BatteryIcon from '@/components/icons/BatteryIcon';
 
 export default function SolarPanelsHome() {
-  const [navigationData, setNavigationData] = useState<any>(null);
-  const [footerData, setFooterData] = useState<any>(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      const [nav, footer] = await Promise.all([
-        client.fetch(`*[_type == "navigationSection"][0]{ _id, _type, title, navItems, ctaButton }`),
-        client.fetch(`*[_type == "footerSection"][0]`)
-      ]);
-      setNavigationData(nav);
-      setFooterData(footer);
-    }
-    fetchData();
-  }, []);
 
   return (
     <PageWrapper>
-      <Navigation data={navigationData} />
+      <Navigation />
 
       {/* Hero Section */}
       <section className="relative py-20 flex items-center overflow-hidden pt-32 bg-transparent">
@@ -400,7 +385,7 @@ export default function SolarPanelsHome() {
       {/* Contact Form */}
       <Contact />
 
-      <Footer data={footerData} />
+      <Footer />
     </PageWrapper>
   );
 }

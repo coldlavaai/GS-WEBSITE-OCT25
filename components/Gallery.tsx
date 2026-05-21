@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState, useEffect, useMemo } from 'react';
 import { MapPin, Calendar, Zap } from 'lucide-react';
-import { urlFor } from '@/lib/sanity';
 
 interface GalleryItem {
   _id: string;
