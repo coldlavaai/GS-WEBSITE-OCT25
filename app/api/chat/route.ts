@@ -162,7 +162,13 @@ export async function POST(request: NextRequest) {
       const response = await client.messages.create({
         model: 'claude-sonnet-4-6',
         max_tokens: 512,
-        system: SOPHIE_SYSTEM_PROMPT,
+        // The Claude Code identity block is required for the Max subscription
+        // OAuth token to be accepted on /v1/messages (otherwise 429). Sophie's
+        // real instructions follow in the second block.
+        system: [
+          { type: 'text', text: "You are Claude Code, Anthropic's official CLI for Claude." },
+          { type: 'text', text: SOPHIE_SYSTEM_PROMPT },
+        ],
         messages: currentMessages,
         tools: [ADD_LEAD_TOOL],
       });
