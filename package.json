@@ -10,6 +10,7 @@
     "sync:dbr": "npx tsx scripts/sync-dbr-leads.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.112.3",
     "@portabletext/react": "^4.0.3",
     "dotenv": "^17.2.3",
     "framer-motion": "^11.5.4",

@@ -13,14 +13,8 @@ export default function VapiTextChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [chatId, setChatId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
-
-  const WIDGET_CONFIG = {
-    assistantId: process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID || 'd8b50524-1f09-44b8-8002-bcaf88cd4d0d',
-    apiKey: process.env.NEXT_PUBLIC_VAPI_API_KEY || 'a025d33b-8e6a-45ee-bda4-ec22db21e1b6'
-  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -40,47 +34,18 @@ export default function VapiTextChat() {
     setIsLoading(true);
 
     try {
-      // Call backend API proxy (secure)
-      const payload: any = {
-        input: message
-      };
+      const fullHistory = [...messages, userMessage];
 
-      // Include previous chat ID for conversation continuity
-      if (chatId) {
-        payload.previousChatId = chatId;
-      }
-
-      const response = await fetch('/api/vapi/chat', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: fullHistory }),
       });
 
       const data = await response.json();
 
-      // Save chat ID for conversation persistence
-      if (data.id) {
-        setChatId(data.id);
-      }
-
-      // Extract Sophie's response
-      let sophieResponse = '';
-      if (data.output && Array.isArray(data.output) && data.output.length > 0) {
-        sophieResponse = data.output[data.output.length - 1].content || data.output[data.output.length - 1].text;
-      } else if (data.messages && Array.isArray(data.messages) && data.messages.length > 0) {
-        sophieResponse = data.messages[data.messages.length - 1].content || data.messages[data.messages.length - 1].text;
-      } else if (data.response) {
-        sophieResponse = data.response;
-      } else if (data.reply) {
-        sophieResponse = data.reply;
-      }
-
-      // Add Sophie's response
-      if (sophieResponse) {
-        const assistantMessage: Message = { role: 'assistant', content: sophieResponse };
-        setMessages(prev => [...prev, assistantMessage]);
+      if (data.reply) {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
       }
 
     } catch (error) {
