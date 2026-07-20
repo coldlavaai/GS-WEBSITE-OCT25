@@ -12,6 +12,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.112.3",
     "@portabletext/react": "^4.0.3",
+    "@supabase/supabase-js": "^2.110.7",
     "dotenv": "^17.2.3",
     "framer-motion": "^11.5.4",
     "google-auth-library": "^10.4.1",
