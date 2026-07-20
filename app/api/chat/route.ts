@@ -1,7 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import Anthropic from '@anthropic-ai/sdk';
 import { appendLeadToSheet } from '@/lib/googleSheets';
 import { getSophieConfig } from '@/lib/sophieConfig';
+
+// Constant-time secret check for the Sol dashboard's "test a draft" feature.
+function previewAuthorised(req: NextRequest): boolean {
+  const secret = process.env.SOPHIE_PREVIEW_SECRET;
+  const provided = req.headers.get('x-sophie-preview');
+  if (!secret || !provided) return false;
+  const a = Buffer.from(secret);
+  const b = Buffer.from(provided);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
 
 const ADD_LEAD_TOOL: Anthropic.Tool = {
   name: 'add_lead_to_sheet',
@@ -28,7 +39,12 @@ interface ChatMessage {
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages } = await request.json() as { messages: ChatMessage[] };
+    const body = await request.json() as {
+      messages: ChatMessage[];
+      systemPromptOverride?: string;
+      modelOverride?: string;
+    };
+    const { messages } = body;
 
     if (!Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json({ error: 'Invalid messages' }, { status: 400 });
@@ -49,7 +65,15 @@ export async function POST(request: NextRequest) {
 
     // Sophie's live prompt + model come from Supabase (managed via the Sol
     // dashboard); falls back to the baked-in prompt if the DB is unreachable.
-    const { systemPrompt, model } = await getSophieConfig();
+    // The dashboard can test a draft prompt by passing an override + secret.
+    let systemPrompt: string;
+    let model: string;
+    if (body.systemPromptOverride && previewAuthorised(request)) {
+      systemPrompt = body.systemPromptOverride;
+      model = body.modelOverride || 'claude-sonnet-4-6';
+    } else {
+      ({ systemPrompt, model } = await getSophieConfig());
+    }
 
     let currentMessages: Anthropic.MessageParam[] = messages.map(m => ({
       role: m.role,
