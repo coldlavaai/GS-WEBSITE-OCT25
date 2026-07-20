@@ -145,7 +145,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Chat service not configured' }, { status: 503 });
     }
 
-    const client = new Anthropic({ authToken });
+    // Max subscription auth: OAuth token on Authorization: Bearer, plus the
+    // oauth beta header — /v1/messages rejects an OAuth token without it.
+    const client = new Anthropic({
+      authToken,
+      defaultHeaders: { 'anthropic-beta': 'oauth-2025-04-20' },
+    });
 
     let currentMessages: Anthropic.MessageParam[] = messages.map(m => ({
       role: m.role,
@@ -155,7 +160,7 @@ export async function POST(request: NextRequest) {
     // Agentic loop - handles tool use (saving lead to Google Sheets)
     while (true) {
       const response = await client.messages.create({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'claude-sonnet-4-6',
         max_tokens: 512,
         system: SOPHIE_SYSTEM_PROMPT,
         messages: currentMessages,
