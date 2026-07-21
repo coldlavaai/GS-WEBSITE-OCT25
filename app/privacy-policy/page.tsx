@@ -88,8 +88,8 @@ export default function PrivacyPolicyPage() {
 
             <div className="mt-4 space-y-4">
               <div className="bg-white/5 p-4 rounded-lg">
-                <h4 className="font-semibold text-white">VAPI AI (Chat Widget)</h4>
-                <p className="text-sm mt-1">Processes chat messages to provide AI-powered customer support. Data stored in the USA.</p>
+                <h4 className="font-semibold text-white">Anthropic (Claude AI Chat Assistant)</h4>
+                <p className="text-sm mt-1">Processes chat messages to power our Sophie assistant and provide AI customer support. Data processed in the USA. Anthropic does not use business API data to train its models.</p>
               </div>
 
               <div className="bg-white/5 p-4 rounded-lg">

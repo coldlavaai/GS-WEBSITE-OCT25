@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from '@/components/ThemeProvider';
-import VapiTextChat from '@/components/VapiTextChat';
+import SophieChat from '@/components/SophieChat';
 import CookieConsent from '@/components/CookieConsent';
 import { StructuredData } from '@/components/StructuredData';
 
@@ -57,7 +57,7 @@ export default function RootLayout({
         <StructuredData />
         <ThemeProvider>
           {children}
-          <VapiTextChat />
+          <SophieChat />
           <CookieConsent />
         </ThemeProvider>
       </body>

@@ -52,7 +52,7 @@ export default function CookiePolicyPage() {
                 <h3 className="text-xl font-semibold text-white mb-2">Functional Cookies</h3>
                 <p className="mb-2">These cookies enable enhanced functionality like our chat widget.</p>
                 <div className="text-sm mt-2">
-                  <p><strong>Service:</strong> VAPI Chat Widget</p>
+                  <p><strong>Service:</strong> Sophie Chat Assistant</p>
                   <p><strong>Purpose:</strong> Remembers your chat sessions and preferences</p>
                   <p><strong>Duration:</strong> Session (deleted when you close your browser)</p>
                 </div>
@@ -76,14 +76,14 @@ export default function CookiePolicyPage() {
               Some cookies are placed by third-party services that appear on our pages:
             </p>
             <ul className="list-disc ml-6 mt-2 space-y-1">
-              <li><strong>VAPI AI:</strong> Powers our chat widget and may set cookies to maintain conversation state</li>
+              <li><strong>Anthropic (Claude):</strong> Powers our Sophie chat assistant by processing chat messages to generate replies</li>
               <li><strong>Vercel:</strong> Our hosting provider may set cookies for analytics and performance monitoring</li>
             </ul>
             <p className="mt-4">
               These third parties have their own privacy policies. We recommend reviewing:
             </p>
             <ul className="list-disc ml-6 mt-2 space-y-1">
-              <li><a href="https://vapi.ai/privacy" target="_blank" rel="noopener noreferrer" className="text-[#8cc63f] hover:underline">VAPI Privacy Policy</a></li>
+              <li><a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-[#8cc63f] hover:underline">Anthropic Privacy Policy</a></li>
               <li><a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-[#8cc63f] hover:underline">Vercel Privacy Policy</a></li>
             </ul>
           </section>
