@@ -1,5 +1,9 @@
 # Sophie Editor in the Sol Dashboard — Build Spec v0.1
 
+> **Superseded note (2026-07):** VAPI is gone — Sophie runs on Claude (Anthropic)
+> on our own backend. Any VAPI references below are historical context from the
+> original migration and do not describe the current system.
+
 **Status:** SPEC (not built). Kickoff: "build the Sophie editor - read .claude/sophie-sol-editor-spec.md"
 **Author:** Oliver + Claude, 2026-07-20
 **Owner:** JJ to pick up (Greenstar workstream)

@@ -1,5 +1,10 @@
 # GreenStar Solar - Technical Implementation Log
 
+> **Superseded note (2026-07):** VAPI has been fully removed. Sophie now runs on
+> our own backend via Claude (Anthropic, Max subscription) and is managed from the
+> Sol dashboard (Website → Chatbot). Any VAPI references below are retained as
+> historical record only and no longer reflect the live system.
+
 **Project:** GreenStar Solar Website Redesign
 **Repository:** https://github.com/coldlavaai/greenstarwebsiteupgrade
 **Live Site:** https://greenstarwebsiteupgrade.vercel.app/

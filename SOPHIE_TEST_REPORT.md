@@ -267,7 +267,7 @@ Re-run all 20 tests to verify:
 1. Update prompt with boundary instructions
 2. Strengthen formatting rules with explicit examples
 3. Re-test all 20 scenarios
-4. Deploy updated prompt to VAPI
+4. Publish the updated prompt from the Sol dashboard (Website → Chatbot)
 5. Monitor real user conversations for any remaining issues
 
 ---

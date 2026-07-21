@@ -1,6 +1,6 @@
 # 📊 Google Sheets Direct Integration Setup
 
-Your contact form will now send submissions **directly to Google Sheets** (not through VAPI).
+Your contact form will now send submissions **directly to Google Sheets**.
 
 **Your Sheet:** https://docs.google.com/spreadsheets/d/1uKmU_phI7b6TArPSW7Ks5PV-snggG5KDy5QumIcuRdk/edit
 

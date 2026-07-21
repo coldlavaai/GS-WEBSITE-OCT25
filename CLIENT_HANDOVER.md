@@ -43,7 +43,7 @@ Your new modern, high-performance website is now **live** and includes:
 - Answers questions about your services
 - Can book appointments directly
 - Speaks naturally with customers
-- Powered by VAPI AI technology
+- Powered by Claude (Anthropic) on our own backend, managed from the Sol dashboard
 
 #### 3. **Cookie Consent**
 - GDPR/UK compliance
@@ -85,10 +85,10 @@ Your new modern, high-performance website is now **live** and includes:
 - All contact form submissions appear here automatically
 - Columns: First Name, Last Name, Mobile, Email, Postcode, Time of Request, Notes, Source
 
-### Sophie AI Chat (VAPI)
-- **Dashboard:** https://dashboard.vapi.ai/
-- **Assistant ID:** cb76e1bc-dc2d-4ea8-84a1-c17499ed6387
-- Manages the chat widget on your site
+### Sophie AI Chat (Claude)
+- **Managed in:** the Sol dashboard → Website → Chatbot
+- Runs on our own backend via Claude (Anthropic); no third-party chat provider
+- Prompt, knowledge, guardrails and model are edited there and go live within ~a minute
 
 ### Email Notifications (Resend)
 - Sends email alerts when forms are submitted
@@ -126,10 +126,10 @@ All submissions go to your Google Sheet automatically:
 - Emails include all customer details
 
 ### Monitoring Sophie AI Chat
-1. Log into VAPI Dashboard: https://dashboard.vapi.ai/
-2. View conversation transcripts
-3. See call analytics and usage
-4. Update Sophie's knowledge base if needed
+1. Open the Sol dashboard → Website → Chatbot
+2. Use the Test tab to try Sophie against the current setup
+3. Edit her Behaviour, Knowledge and Guardrails, then Publish
+4. Changes go live on the website within about a minute
 
 ---
 
@@ -164,7 +164,7 @@ All submissions go to your Google Sheet automatically:
 **Emergency Issues:**
 - Site down: Contact Vercel support + developer
 - Forms not working: Check Google Sheets sharing + developer
-- Chat widget offline: Check VAPI dashboard + developer
+- Chat widget offline: Check the Sol dashboard (Website → Chatbot) + developer
 
 ---
 
@@ -208,7 +208,7 @@ Consider these future improvements:
 - **Framework:** Next.js 14 (React)
 - **Hosting:** Vercel (Serverless)
 - **CMS:** Sanity.io
-- **AI Chat:** VAPI
+- **AI Chat:** Claude (Anthropic), managed from the Sol dashboard
 - **Forms:** Google Sheets API + Sanity
 - **Email:** Resend API
 - **Styling:** Tailwind CSS + Custom Components

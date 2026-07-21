@@ -38,20 +38,24 @@ cat google_service_account.json | python3 -c "import sys, json; data = json.load
 
 ---
 
-### VAPI AI Chat Widget
+### Sophie Chat (Claude / Anthropic)
 
-#### `NEXT_PUBLIC_VAPI_API_KEY`
-- **Value:** `bb0b198b-1a8f-4675-bdf8-8a865fc5d68a`
-- **Environments:** Production, Preview, Development
-- **Purpose:** VAPI API authentication for Sophie chat widget
-- **Security:** Moderately sensitive - exposed to browser but scoped to assistant
-- **Note:** `NEXT_PUBLIC_` prefix means it's available in browser code
+> VAPI has been removed. Sophie now runs on our own backend via Claude. The old
+> `NEXT_PUBLIC_VAPI_*` variables are obsolete — delete them from Vercel.
 
-#### `NEXT_PUBLIC_VAPI_ASSISTANT_ID`
-- **Value:** `cb76e1bc-dc2d-4ea8-84a1-c17499ed6387`
+#### `CLAUDE_CODE_OAUTH_TOKEN`
+- **Purpose:** Max-subscription setup-token authenticating Sophie's calls to Claude
 - **Environments:** Production, Preview, Development
-- **Purpose:** Identifies Sophie AI assistant configuration
-- **Security:** Not sensitive (public assistant identifier)
+- **Security:** Secret (server-side only, never `NEXT_PUBLIC_`). Regenerate with `claude setup-token`.
+
+#### `SOPHIE_PREVIEW_SECRET`
+- **Purpose:** Gates the Sol dashboard's live-test / improve prompt overrides
+- **Environments:** Production, Preview, Development
+- **Security:** Secret (server-side only)
+
+#### `GREENSTAR_SUPABASE_URL` / `GREENSTAR_SUPABASE_SERVICE_KEY`
+- **Purpose:** Read Sophie's published config, knowledge and guardrails from Supabase
+- **Security:** Service key is secret (server-side only)
 
 ---
 
@@ -124,13 +128,12 @@ cat google_service_account.json | python3 -c "import sys, json; data = json.load
 - `NEXT_PUBLIC_SANITY_PROJECT_ID`
 - `NEXT_PUBLIC_SANITY_DATASET`
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL`
-- `NEXT_PUBLIC_VAPI_ASSISTANT_ID`
-
-### MODERATELY SENSITIVE (Browser-exposed but scoped)
-- `NEXT_PUBLIC_VAPI_API_KEY` - Scoped to specific assistant
 
 ### HIGHLY SENSITIVE (Server-only, never expose)
 - `GOOGLE_PRIVATE_KEY`
+- `CLAUDE_CODE_OAUTH_TOKEN` - Sophie's Claude (Max) auth
+- `SOPHIE_PREVIEW_SECRET` - dashboard live-test gate
+- `GREENSTAR_SUPABASE_SERVICE_KEY` - Sophie config/knowledge reads
 - `SANITY_API_WRITE_TOKEN`
 - `RESEND_API_KEY`
 - `SANITY_REVALIDATE_SECRET`
@@ -203,9 +206,10 @@ Use this to verify all environment variables are set correctly:
 - [ ] Test endpoint works: `/api/test-sheets`
 - [ ] Form submission creates new row in sheet
 
-### VAPI Chat Widget
-- [ ] `NEXT_PUBLIC_VAPI_API_KEY` is set
-- [ ] `NEXT_PUBLIC_VAPI_ASSISTANT_ID` is set
+### Sophie Chat (Claude)
+- [ ] `CLAUDE_CODE_OAUTH_TOKEN` is set (Max setup-token)
+- [ ] `SOPHIE_PREVIEW_SECRET` is set (matches the Sol dashboard)
+- [ ] `GREENSTAR_SUPABASE_URL` / `GREENSTAR_SUPABASE_SERVICE_KEY` are set
 - [ ] Chat widget appears on homepage
 - [ ] Can start a conversation with Sophie
 
@@ -244,14 +248,14 @@ Use this to verify all environment variables are set correctly:
 3. Ensure key has actual newlines, not `\n` strings
 4. Redeploy
 
-### VAPI: Widget not appearing
-**Problem:** Missing or invalid API credentials
+### Sophie: not replying
+**Problem:** Missing/expired Claude token or Supabase creds
 
 **Check:**
-1. Verify both `NEXT_PUBLIC_VAPI_*` variables are set
-2. Check browser console for errors
-3. Redeploy after adding variables
-4. Try incognito mode (bypass cache)
+1. Verify `CLAUDE_CODE_OAUTH_TOKEN` is set and not expired (regenerate with `claude setup-token`)
+2. Verify `GREENSTAR_SUPABASE_*` are set (config falls back to the baked-in prompt if not)
+3. Check Vercel function logs for `/api/chat` errors
+4. Redeploy after changing variables
 
 ### Email: Not sending
 **Problem:** Resend API key or email settings
@@ -278,7 +282,7 @@ Use this to verify all environment variables are set correctly:
 **If you need to regenerate any keys:**
 
 - **Google Service Account:** Google Cloud Console
-- **VAPI Credentials:** VAPI Dashboard
+- **Claude (Sophie) token:** run `claude setup-token`
 - **Sanity Tokens:** Sanity.io Management Console
 - **Resend API Key:** Resend Dashboard
 
