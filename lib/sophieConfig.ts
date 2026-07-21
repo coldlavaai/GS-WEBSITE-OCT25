@@ -10,6 +10,8 @@ import { SOPHIE_BASE_PROMPT, SOPHIE_DEFAULT_MODEL } from './sophiePrompt';
 export interface SophieConfig {
   systemPrompt: string;
   model: string;
+  version: number | null;
+  style: string;
 }
 
 // Honest style presets: our models deprecate `temperature`, so "style" maps to
@@ -23,7 +25,7 @@ const STYLE_GUIDANCE: Record<string, string> = {
     'STYLE: Give thorough, well explained replies when the question warrants it, while staying clear, on topic and in your normal voice.',
 };
 
-const TTL_MS = 60_000; // re-read published config at most once a minute
+const TTL_MS = 5_000; // re-read published config every few seconds (near real-time)
 let cache: { value: SophieConfig; at: number } | null = null;
 
 let client: SupabaseClient | null = null;
@@ -39,6 +41,8 @@ function supa(): SupabaseClient | null {
 const FALLBACK: SophieConfig = {
   systemPrompt: SOPHIE_BASE_PROMPT,
   model: SOPHIE_DEFAULT_MODEL,
+  version: null,
+  style: 'balanced',
 };
 
 /**
@@ -54,7 +58,7 @@ export async function getSophieConfig(): Promise<SophieConfig> {
   try {
     const { data: cfg, error: cfgErr } = await sb
       .from('sophie_config')
-      .select('system_prompt, model, style')
+      .select('system_prompt, model, style, version')
       .eq('published', true)
       .maybeSingle();
 
@@ -102,6 +106,8 @@ export async function getSophieConfig(): Promise<SophieConfig> {
     const value: SophieConfig = {
       systemPrompt,
       model: (cfg.model as string) || SOPHIE_DEFAULT_MODEL,
+      version: (cfg.version as number | null) ?? null,
+      style: (cfg.style as string) || 'balanced',
     };
     cache = { value, at: Date.now() };
     return value;
