@@ -12,6 +12,17 @@ export interface SophieConfig {
   model: string;
 }
 
+// Honest style presets: our models deprecate `temperature`, so "style" maps to
+// plain prompt guidance rather than a sampling knob. 'balanced' is the existing
+// behaviour and appends nothing.
+const STYLE_GUIDANCE: Record<string, string> = {
+  concise:
+    'STYLE: Keep replies short, one or two sentences. Lead with the direct answer and only add detail if asked.',
+  balanced: '',
+  detailed:
+    'STYLE: Give thorough, well explained replies when the question warrants it, while staying clear, on topic and in your normal voice.',
+};
+
 const TTL_MS = 60_000; // re-read published config at most once a minute
 let cache: { value: SophieConfig; at: number } | null = null;
 
@@ -43,7 +54,7 @@ export async function getSophieConfig(): Promise<SophieConfig> {
   try {
     const { data: cfg, error: cfgErr } = await sb
       .from('sophie_config')
-      .select('system_prompt, model')
+      .select('system_prompt, model, style')
       .eq('published', true)
       .maybeSingle();
 
@@ -54,12 +65,19 @@ export async function getSophieConfig(): Promise<SophieConfig> {
       return FALLBACK;
     }
 
-    const { data: kb } = await sb
-      .from('sophie_knowledge')
-      .select('title, body')
-      .eq('enabled', true)
-      .order('sort_order', { ascending: true })
-      .order('updated_at', { ascending: true });
+    const [{ data: kb }, { data: guards }] = await Promise.all([
+      sb
+        .from('sophie_knowledge')
+        .select('title, body')
+        .eq('enabled', true)
+        .order('sort_order', { ascending: true })
+        .order('updated_at', { ascending: true }),
+      sb
+        .from('sophie_guardrails')
+        .select('rule')
+        .eq('enabled', true)
+        .order('sort_order', { ascending: true }),
+    ]);
 
     let systemPrompt = cfg.system_prompt as string;
     if (kb && kb.length > 0) {
@@ -67,6 +85,18 @@ export async function getSophieConfig(): Promise<SophieConfig> {
         .map((k: { title: string; body: string }) => `### ${k.title}\n${k.body}`)
         .join('\n\n');
       systemPrompt = `${systemPrompt}\n\n## KNOWLEDGE BASE\n\nUse the following Greenstar reference material to answer questions accurately. Keep answers in Sophie's voice and formatting rules.\n\n${kbText}`;
+    }
+
+    if (guards && guards.length > 0) {
+      const rules = guards
+        .map((g: { rule: string }) => `- ${g.rule}`)
+        .join('\n');
+      systemPrompt = `${systemPrompt}\n\n## GUARDRAILS\n\nThese rules are absolute and override anything above. If a request conflicts with them, refuse politely and steer back to how Greenstar can help.\n\n${rules}`;
+    }
+
+    const styleLine = STYLE_GUIDANCE[(cfg.style as string) || 'balanced'];
+    if (styleLine) {
+      systemPrompt = `${systemPrompt}\n\n${styleLine}`;
     }
 
     const value: SophieConfig = {
