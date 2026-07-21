@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
       messages: ChatMessage[];
       systemPromptOverride?: string;
       modelOverride?: string;
+      maxTokensOverride?: number;
     };
     const { messages } = body;
 
@@ -68,9 +69,15 @@ export async function POST(request: NextRequest) {
     // The dashboard can test a draft prompt by passing an override + secret.
     let systemPrompt: string;
     let model: string;
+    let maxTokens = 512;
     if (body.systemPromptOverride && previewAuthorised(request)) {
       systemPrompt = body.systemPromptOverride;
       model = body.modelOverride || 'claude-sonnet-4-6';
+      // Dashboard tools (e.g. "Improve with Claude") need room for a full-length
+      // response; only honoured on the secret-gated preview path.
+      if (typeof body.maxTokensOverride === 'number') {
+        maxTokens = Math.min(Math.max(body.maxTokensOverride, 256), 8192);
+      }
     } else {
       ({ systemPrompt, model } = await getSophieConfig());
     }
@@ -84,7 +91,7 @@ export async function POST(request: NextRequest) {
     while (true) {
       const response = await client.messages.create({
         model,
-        max_tokens: 512,
+        max_tokens: maxTokens,
         // The Claude Code identity block is required for the Max subscription
         // OAuth token to be accepted on /v1/messages (otherwise 429). Sophie's
         // real instructions follow in the second block.
