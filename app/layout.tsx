@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from '@/components/ThemeProvider';
 import SophieChat from '@/components/SophieChat';
 import CookieConsent from '@/components/CookieConsent';
+import Analytics from '@/components/Analytics';
 import { StructuredData } from '@/components/StructuredData';
 
 const inter = Inter({
@@ -59,6 +60,7 @@ export default function RootLayout({
           {children}
           <SophieChat />
           <CookieConsent />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>

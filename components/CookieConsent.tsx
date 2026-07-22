@@ -23,6 +23,7 @@ export default function CookieConsent() {
 
   const handleAccept = () => {
     localStorage.setItem('cookie-consent', 'accepted');
+    window.dispatchEvent(new Event('gs-consent-accepted'));
     setShowBanner(false);
   };
 
