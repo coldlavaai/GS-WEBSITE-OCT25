@@ -41,6 +41,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json() as {
       messages: ChatMessage[];
+      session_id?: string;
       systemPromptOverride?: string;
       modelOverride?: string;
       maxTokensOverride?: number;
@@ -105,7 +106,9 @@ export async function POST(request: NextRequest) {
 
       if (response.stop_reason === 'end_turn') {
         const text = response.content.find(b => b.type === 'text');
-        return NextResponse.json({ reply: text?.text ?? '' });
+        const reply = text?.text ?? '';
+        logConversation(body.session_id, [...messages, { role: 'assistant', content: reply }]);
+        return NextResponse.json({ reply });
       }
 
       if (response.stop_reason === 'tool_use') {
@@ -149,4 +152,19 @@ export async function POST(request: NextRequest) {
     console.error('Chat error:', error);
     return NextResponse.json({ error: 'Chat service temporarily unavailable' }, { status: 500 });
   }
+}
+
+
+// Fire-and-forget transcript log to the Cold Lava engine; idle conversations
+// become end-of-chat reports to the Greenstar team. Never blocks or fails the
+// visitor's reply; silently skipped when the env is not configured.
+function logConversation(sessionId: string | undefined, messages: ChatMessage[]): void {
+  const url = process.env.SOPHIE_LOG_URL;
+  const secret = process.env.SOPHIE_LOG_SECRET;
+  if (!url || !secret || !sessionId) return;
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
+    body: JSON.stringify({ session_id: sessionId, messages }),
+  }).catch(() => {});
 }

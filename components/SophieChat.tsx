@@ -14,6 +14,11 @@ export default function SophieChat() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  // Stable id for this visitor's conversation, so the server can assemble
+  // the transcript for the end-of-chat report.
+  const sessionIdRef = useRef<string>(
+    typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `s-${Math.random().toString(36).slice(2)}`
+  );
   const isMobile = useIsMobile();
 
   const scrollToBottom = () => {
@@ -39,7 +44,7 @@ export default function SophieChat() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: fullHistory }),
+        body: JSON.stringify({ messages: fullHistory, session_id: sessionIdRef.current }),
       });
 
       const data = await response.json();
