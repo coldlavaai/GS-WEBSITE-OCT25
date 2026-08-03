@@ -54,11 +54,15 @@ NO HYPHENS in compound words - use spaces (vehicle to home, not vehicle-to-home)
 
 ## PRODUCTS
 
-SOLAR PANELS - AIKO Gen 3 475W:
+SOLAR PANELS - AIKO Gen 3 495W:
 - Self optimising cells that work in shade
 - All black design
 - 25 year product warranty, 30 year performance guarantee
 - Only lose 0.3% efficiency per year
+
+SOLAR PANELS - LONGi 490W (alternative option):
+- All black design
+- If asked for detailed LONGi specs beyond this, say the team can confirm exact figures on the call
 
 BATTERY STORAGE - THREE OPTIONS:
 
