@@ -10,6 +10,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
  */
 
 type Day = { date: string; label: string; slots: Array<{ iso: string; label: string }> };
+/** What they already have booked. can_change is false for bookings made before
+ *  18 Aug 2026, which have no stored calendar event id and so cannot be moved
+ *  or cancelled automatically; those people are pointed back to Jack. */
+type Existing = { start: string; label: string; can_change: boolean };
 
 const API = "https://dbr.coldlava.ai";
 
@@ -29,6 +33,11 @@ export default function BookingCalendar({ token }: { token: string }) {
   const [confirmed, setConfirmed] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [invalid, setInvalid] = useState(false);
+  const [existing, setExisting] = useState<Existing | null>(null);
+  const [mode, setMode] = useState<"view" | "pick">("view");
+  const [working, setWorking] = useState(false);
+  const [cancelled, setCancelled] = useState<string | null>(null);
+  const [askCancel, setAskCancel] = useState(false);
 
   const span = view === "day" ? 1 : view === "week" ? 7 : 31;
 
@@ -41,10 +50,11 @@ export default function BookingCalendar({ token }: { token: string }) {
         setInvalid(true);
         return;
       }
-      const json = (await res.json()) as { ok: boolean; lead_first_name?: string; days?: Day[] };
+      const json = (await res.json()) as { ok: boolean; lead_first_name?: string; days?: Day[]; existing?: Existing };
       if (json.ok) {
         setDays(json.days ?? []);
         setFirstName(json.lead_first_name ?? null);
+        setExisting(json.existing ?? null);
       }
     } catch {
       setError("Couldn't load the diary just now. Pull to refresh or try again in a moment.");
@@ -75,7 +85,10 @@ export default function BookingCalendar({ token }: { token: string }) {
     setBooking(true);
     setError(null);
     try {
-      const res = await fetch(`${API}/public/booking/${token}/book`, {
+      // Same picker, two destinations: a first booking creates, a change moves
+      // the existing entry so it keeps one place in Jack's diary.
+      const path = existing ? "reschedule" : "book";
+      const res = await fetch(`${API}/public/booking/${token}/${path}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slot: pending.iso }),
@@ -95,6 +108,25 @@ export default function BookingCalendar({ token }: { token: string }) {
     }
   };
 
+  const cancel = async () => {
+    setWorking(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API}/public/booking/${token}/cancel`, { method: "POST" });
+      const json = (await res.json()) as { ok: boolean; cancelled?: { label: string }; detail?: string };
+      if (json.ok && json.cancelled) {
+        setCancelled(json.cancelled.label);
+      } else {
+        setError("Couldn't cancel that just now. Reply to Jack's message and he'll sort it.");
+      }
+    } catch {
+      setError("Couldn't cancel that just now. Reply to Jack's message and he'll sort it.");
+    } finally {
+      setWorking(false);
+      setAskCancel(false);
+    }
+  };
+
   const visibleDays = useMemo(() => days.filter((d) => d.slots.length > 0 || view === "month"), [days, view]);
 
   if (invalid) {
@@ -105,21 +137,111 @@ export default function BookingCalendar({ token }: { token: string }) {
     );
   }
 
+  if (cancelled) {
+    return (
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-8 text-center">
+        <h2 className="text-xl font-bold">That&apos;s cancelled{firstName ? `, ${firstName}` : ""}</h2>
+        <p className="mt-2 text-sm text-white/75">
+          Your call on <span className="font-semibold text-white">{cancelled}</span> has been taken out of Jack&apos;s diary.
+        </p>
+        <p className="mt-3 text-xs text-white/50">
+          If you&apos;d still like to speak at some point, just reply to Jack&apos;s message and he&apos;ll pick it back up.
+        </p>
+      </div>
+    );
+  }
+
+  // They already have a call booked. C14: never show a fresh picker to somebody
+  // who is booked, or they end up with two calls and neither of us knows.
+  if (existing && mode === "view") {
+    return (
+      <div className="rounded-2xl border border-primary/40 bg-primary/10 p-6 text-center sm:p-8">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-2xl text-[#161a16]">✓</div>
+        <h2 className="mt-4 text-xl font-bold">You&apos;re booked in{firstName ? `, ${firstName}` : ""}</h2>
+        <p className="mt-2 text-sm text-white/75">
+          Jack will call you on <span className="font-semibold text-white">{existing.label}</span> (15 min).
+        </p>
+        {existing.can_change ? (
+          <>
+            <div className="mt-6 flex flex-col gap-2 sm:flex-row">
+              <button
+                onClick={() => {
+                  setMode("pick");
+                  setPending(null);
+                  setError(null);
+                }}
+                className="flex-1 rounded-xl bg-primary py-3 text-[15px] font-bold text-[#161a16]"
+              >
+                Change the time
+              </button>
+              <button
+                onClick={() => setAskCancel(true)}
+                className="flex-1 rounded-xl border border-white/20 py-3 text-[15px] font-semibold text-white/80 hover:text-white"
+              >
+                Cancel the call
+              </button>
+            </div>
+            {askCancel && (
+              <div className="mt-4 rounded-xl border border-white/15 bg-black/20 p-4">
+                <p className="text-sm text-white/80">Cancel your call on {existing.label}?</p>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={() => void cancel()}
+                    disabled={working}
+                    className="flex-1 rounded-lg bg-white/90 py-2.5 text-[14px] font-bold text-[#161a16] disabled:opacity-60"
+                  >
+                    {working ? "Cancelling…" : "Yes, cancel it"}
+                  </button>
+                  <button
+                    onClick={() => setAskCancel(false)}
+                    className="flex-1 rounded-lg border border-white/20 py-2.5 text-[14px] font-semibold text-white/70"
+                  >
+                    Keep it
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <p className="mt-5 text-xs text-white/55">
+            Need to change or cancel it? Just reply to Jack&apos;s message and he&apos;ll sort it for you.
+          </p>
+        )}
+        {error && <p className="mt-3 text-[13px] text-amber-400">{error}</p>}
+      </div>
+    );
+  }
+
   if (confirmed) {
     return (
       <div className="rounded-2xl border border-primary/40 bg-primary/10 p-8 text-center">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-2xl text-[#161a16]">✓</div>
-        <h2 className="mt-4 text-xl font-bold">You&apos;re booked in{firstName ? `, ${firstName}` : ""}</h2>
+        <h2 className="mt-4 text-xl font-bold">
+          {existing ? "That's moved" : "You're booked in"}{firstName ? `, ${firstName}` : ""}
+        </h2>
         <p className="mt-2 text-sm text-white/75">
           Jack will call you on <span className="font-semibold text-white">{confirmed}</span>. It&apos;s in his diary now.
         </p>
-        <p className="mt-3 text-xs text-white/50">Need to change it? Just reply to Jack&apos;s WhatsApp or email.</p>
+        <p className="mt-3 text-xs text-white/50">
+          Need to change it again? Open this link any time and you can move or cancel it.
+        </p>
       </div>
     );
   }
 
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
+      {existing && (
+        <div className="mb-3 flex items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2">
+          <span className="text-[12px] text-white/60">
+            Currently booked: <span className="text-white/85">{existing.label}</span>
+          </span>
+          <button onClick={() => setMode("view")} className="text-[12px] font-semibold text-primary">
+            Keep it
+          </button>
+        </div>
+      )}
+
       {/* View toggle + nav */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex rounded-full border border-white/15 p-0.5">
@@ -207,7 +329,7 @@ export default function BookingCalendar({ token }: { token: string }) {
             disabled={booking}
             className="mt-3 w-full rounded-xl bg-primary py-3 text-[15px] font-bold text-[#161a16] transition-opacity disabled:opacity-60"
           >
-            {booking ? "Booking…" : "Confirm booking"}
+            {booking ? (existing ? "Moving…" : "Booking…") : existing ? "Move my call here" : "Confirm booking"}
           </button>
         </div>
       )}
